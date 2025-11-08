@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, lightblue, white);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        h1 {
+            color: black;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 48px;
+        }
+
+        .user-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: lightblue;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .username {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .calculator-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        .input-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-section input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid lightblue;
+            border-radius: 5px;
+        }
+
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .calc-btn {
+            padding: 20px;
+            font-size: 18px;
+            border: none;
+            background: lightblue;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calc-btn:hover {
+            background: #87ceeb;
+        }
+
+        .calc-btn.operator {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .calc-btn.operator:hover {
+            background: #357abd;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            font-weight: bold;
+        }
+
+        .options input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 2px solid lightblue;
+            border-radius: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .clear-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: #ee5a52;
+        }
+
+        .enter-btn {
+            background: #51cf66;
+            color: white;
+        }
+
+        .enter-btn:hover {
+            background: #40c057;
+        }
+
+        .history-btn {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .history-btn:hover {
+            background: #357abd;
+        }
+
+        .output-box {
+            padding: 20px;
+            background: #f8f9fa;
+            border: 2px solid lightblue;
+            border-radius: 5px;
+            min-height: 60px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .history-modal.active {
+            display: flex;
+        }
+
+        .history-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .history-header h2 {
+            margin: 0;
+        }
+
+        .close-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            background: #ee5a52;
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Calculate Anything</h1>
+        <div class="user-icon">
+            <div class="avatar">G</div>
+            <span class="username">Guest</span>
+        </div>
+    </div>
+    
+    <div class="calculator-box">
+        <div class="input-section">
+            <label>Enter Calculation:</label>
+            <input type="text" id="calcInput" placeholder="e.g., 5 + 3 * 2">
+        </div>
+
+        <div class="calculator-buttons">
+            <button class="calc-btn" onclick="addToInput('7')">7</button>
+            <button class="calc-btn" onclick="addToInput('8')">8</button>
+            <button class="calc-btn" onclick="addToInput('9')">9</button>
+            <button class="calc-btn operator" onclick="addToInput('/')">/</button>
+            
+            <button class="calc-btn" onclick="addToInput('4')">4</button>
+            <button class="calc-btn" onclick="addToInput('5')">5</button>
+            <button class="calc-btn" onclick="addToInput('6')">6</button>
+            <button class="calc-btn operator" onclick="addToInput('*')">*</button>
+            
+            <button class="calc-btn" onclick="addToInput('1')">1</button>
+            <button class="calc-btn" onclick="addToInput('2')">2</button>
+            <button class="calc-btn" onclick="addToInput('3')">3</button>
+            <button class="calc-btn operator" onclick="addToInput('-')">-</button>
+            
+            <button class="calc-btn" onclick="addToInput('0')">0</button>
+            <button class="calc-btn" onclick="addToInput('.')">.</button>
+            <button class="calc-btn operator" onclick="addToInput('(')">(</button>
+            <button class="calc-btn operator" onclick="addToInput('+')">+</button>
+            
+            <button class="calc-btn operator" onclick="addToInput(')')">)</button>
+        </div>
+
+        <div class="options">
+            <label>
+                Decimal Places:
+                <input type="number" id="decimalPlaces" value="2" min="0" max="10">
+            </label>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn clear-btn" onclick="clearInput()">Clear</button>
+            <button class="action-btn enter-btn" onclick="calculate()">Enter</button>
+            <button class="action-btn history-btn">View History</button>
+        </div>
+
+        <div class="output-box" id="output">Your result will appear here</div>
+    </div>
+
+    <div class="history-modal" id="historyModal">
+        <div class="history-content">
+            <div class="history-header">
+                <h2>Calculation History</h2>
+                <button class="close-btn" onclick="toggleHistory()">Close</button>
+            </div>
+            <div class="history-list" id="historyList">
+                <div style="color: #999; font-style: italic;">No history yet</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let history = [];
+
+        function addToInput(value) {
+            const input = document.getElementById('calcInput');
+            input.value += value;
+        }
+
+        function clearInput() {
+            document.getElementById('calcInput').value = '';
+            document.getElementById('output').textContent = 'Your result will appear here';
+        }
+
+        async function calculate() {
+            const input = document.getElementById('calcInput').value;
+            const decimalPlaces = parseInt(document.getElementById('decimalPlaces').value);
+            const output = document.getElementById('output');
+
+            if (!input) {
+                output.textContent = 'Please enter a calculation';
+                return;
+            }
+
+            try {
+                // Get the auth token from localStorage
+                const authToken = localStorage.getItem('token');
+                if (!authToken) {
+                    output.textContent = 'Please login first';
+                    window.location.href = '/login';
+                    return;
+                }
+
+                // Call the backend calculate endpoint
+                const response = await fetch('/calc/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ expr: input })
+                });
+
+                // Parse the response data first
+                const data = await response.json();
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        // Token expired or invalid
+                        localStorage.removeItem('token');
+                        window.location.href = '/login';
+                        return;
+                    }
+                    // Show the actual error message from the server if available
+                    throw new Error(data.detail || 'Calculation failed');
+                }
+
+                // Validate that we received a result
+                if (data.result === undefined) {
+                    throw new Error('Server response missing result');
+                }
+
+                // Parse the result and validate it's a number
+                const parsedResult = parseFloat(data.result);
+                if (isNaN(parsedResult)) {
+                    throw new Error('Server returned invalid number');
+                }
+
+                const result = parsedResult.toFixed(decimalPlaces);
+                output.textContent = result;
+                
+                // Add to history
+                const historyItem = `${input} = ${result}`;
+                history.unshift(historyItem);
+                updateHistory();
+            } catch (error) {
+                output.textContent = 'Error: Invalid calculation';
+            }
+        }
+
+        async function updateHistory() {
+    try {
+        // Fetch history from backend
+        const response = await fetch('/calc/history', {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
+                return;
+            }
+            throw new Error('Failed to fetch history');
+        }
+
+        const historyData = await response.json();
+        const historyList = document.getElementById('historyList');
+        
+        if (historyData.length === 0) {
+            historyList.innerHTML = '<div style="color: #999; font-style: italic;">No history yet</div>';
+        } else {
+            historyList.innerHTML = '';
+            historyData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                // Just show expression and result, no timestamp
+                div.textContent = `${item.expression} = ${item.result}`;
+                historyList.appendChild(div);
+            });
+        }
+    } catch (error) {
+        console.error('History fetch error:', error);
+    }
+}
+
+        function toggleHistory() {
+            const modal = document.getElementById('historyModal');
+            modal.classList.toggle('active');
+        }
+
+        // Allow Enter key to calculate
+        document.getElementById('calcInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculate();
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('historyModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleHistory();
+            }
+        });
+    </script>
+</body>
+</html>
