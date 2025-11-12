@@ -6,12 +6,12 @@ from calculator_backend.utils.jwt_handler import create_access_token
 from calculator_backend.database import get_db
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
+
 @router.post("/register")
 #Role of decorators,auth prefix
+#In schemas.Usercreate,fastAPI validates user input
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    print(f"Received username: {user.username}")
-    print(f"Received password: {user.password}")
-    print(f"Password length: {len(user.password)}")
+    
     existing_user = db.query(models.User).filter(models.User.username == user.username).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Username already exists")
