@@ -1,1 +1,1 @@
-print("Appu is awesome")
+print("chooti is awesome")
