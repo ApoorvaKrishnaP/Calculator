@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: sans-serif;
             background: linear-gradient(to bottom right, lightblue, white);
             min-height: 100vh;
             padding: 20px;
@@ -28,7 +28,7 @@
 
         h1 {
             color: black;
-            font-family: 'Brush Script MT', cursive;
+            font-family: 'Arial';
             font-size: 48px;
         }
 
@@ -251,17 +251,27 @@
             border-radius: 5px;
             font-size: 16px;
         }
+        h2{
+            align-items: center;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Calculate Anything</h1>
-        <div class="user-icon">
-            <div class="avatar">G</div>
-            <span class="username">Guest</span>
-        </div>
-    </div>
     
+        
+    <div class="header">
+    <h1 id="mainHeading">Calculate Anything</h1>
+    <div class="user-icon">
+        <div class="avatar">G</div>
+        <span class="username">Guest</span>
+    </div>
+    </div>
+    <div class="header">
+        <h1 id="welcome_message"></h1>
+    </div>
+    <div class="header">
+    <h2 id="Side">Have a great day!</h2>
+    </div>
     <div class="calculator-box">
         <div class="input-section">
             <label>Enter Calculation:</label>
@@ -319,10 +329,18 @@
             </div>
         </div>
     </div>
-
+    
     <script>
         let history = [];
+        const user=localStorage.getItem('username');
+        const welcome=document.getElementById("welcome_message");
+        welcome.textContent=`Welcome,${user}`
 
+        // document.querySelector(".username").textContent = user;
+
+        // // Avatar: take first letter capitalized
+        // const avatarLetter = user.charAt(0).toUpperCase();
+        // document.querySelector(".avatar").textContent = avatarLetter;
         function addToInput(value) {
             const input = document.getElementById('calcInput');
             input.value += value;
