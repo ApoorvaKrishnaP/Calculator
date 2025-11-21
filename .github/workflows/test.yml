@@ -2,6 +2,7 @@ name: Run calc_test
 
 on:
     pull_request:
+        types: [opened, synchronize, edited]
         branches: [main]
 
 jobs:
@@ -30,6 +31,12 @@ jobs:
       run: pytest # <--- This command executes your tests
     - name: Fetch PR comments
       run: |
+        PR_NUMBER=${{ github.event.pull_request.number }}
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
-        > .github/scripts/comments.json
+        "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+        >.github/scripts/general_comments.json
+    - name: Fetch Inline PR Comments
+      run : |
+        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/comments" \
+        > .github/scripts/review_comments.json
