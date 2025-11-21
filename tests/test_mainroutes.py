@@ -1,4 +1,4 @@
-from calculator_backend import main
+import main
 
 
 def test_get_register_login_calculator_return_html():
