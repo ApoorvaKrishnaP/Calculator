@@ -8,3 +8,4 @@ pydantic
 python-multipart
 pytest
 sympy
+pre-commit

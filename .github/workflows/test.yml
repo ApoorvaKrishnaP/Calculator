@@ -28,3 +28,8 @@ jobs:
     # 4. Run Pytest unit tests
     - name: Run Pytest Tests
       run: pytest # <--- This command executes your tests
+    - name: Fetch PR comments
+      run: |
+        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+        > .github/scripts/comments.json
