@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from calculator_backend import models,database
