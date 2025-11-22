@@ -26,6 +26,7 @@ app.mount("/static", StaticFiles(directory="frontend"), name="static")
 def get_register():
     with open("frontend/register.html", "r", encoding="utf-8") as f:
         html_content = f.read()
+    return html_content
 
 @app.get("/login", response_class=HTMLResponse)
 def get_login():
