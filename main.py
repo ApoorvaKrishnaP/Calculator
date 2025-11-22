@@ -1,4 +1,4 @@
-import FastAPI
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from calculator_backend import models,database
@@ -26,7 +26,6 @@ app.mount("/static", StaticFiles(directory="frontend"), name="static")
 def get_register():
     with open("frontend/register.html", "r", encoding="utf-8") as f:
         html_content = f.read()
-    return html_content
 
 @app.get("/login", response_class=HTMLResponse)
 def get_login():
