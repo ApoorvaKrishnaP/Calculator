@@ -17,7 +17,7 @@ models.Base.metadata.create_all(bind=database.engine)
 
 
 
-# app.include_router(auth.router)
+app.include_router(auth.router)
 app.include_router(calculator.router)
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
