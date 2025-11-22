@@ -38,3 +38,4 @@ jobs:
         with:
           commit_message: 'Auto-logging new PR review comment'
           files: 'review_log.json'
+          branch: 'main'
