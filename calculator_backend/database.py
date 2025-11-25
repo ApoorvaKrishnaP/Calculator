@@ -14,4 +14,5 @@ def get_db():
     finally:
         db.close()
 #print("Howdy girl!")
+print("hey")
 
