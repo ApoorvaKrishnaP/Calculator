@@ -5,5 +5,19 @@
     "body": "add only necessary comments",
     "path": "main.py",
     "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  },
+  {
+    "pr_number": 13,
+    "user": "ApoorvaKrishnaP",
+    "body": "Ensure first letter is capitalized in print statements",
+    "path": "calculator_backend/database.py",
+    "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  },
+  {
+    "pr_number": 13,
+    "user": "ApoorvaKrishnaP",
+    "body": "Never do wrong imports",
+    "path": "calculator_backend/routers/auth.py",
+    "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   }
 ]
