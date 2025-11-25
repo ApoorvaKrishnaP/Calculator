@@ -1,0 +1,9 @@
+[
+  {
+    "pr_number": 12,
+    "user": "ApoorvaKrishnaP",
+    "body": "add only necessary comments",
+    "path": "main.py",
+    "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  }
+]
