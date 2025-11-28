@@ -31,3 +31,4 @@ def login(user: schemas.UserCreate, db: Session = Depends(get_db)):
     token = create_access_token({"sub": db_user.username})
     return {"access_token": token, "token_type": "bearer"}
 print("hey")
+print("iopo")
