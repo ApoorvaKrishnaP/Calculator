@@ -4,6 +4,8 @@ on:
   # This is the specific event for inline code comments on a PR
   pull_request_review_comment:
     types: [ created ] # Only log when a new comment is created
+  pull_request_review:
+      types: [ submitted ]
 permissions:
   contents: write
 
