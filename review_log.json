@@ -33,5 +33,12 @@
     "body": "good",
     "path": "calculator_backend/routers/auth.py",
     "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  },
+  {
+    "pr_number": 16,
+    "user": "",
+    "body": "",
+    "path": "",
+    "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   }
 ]
