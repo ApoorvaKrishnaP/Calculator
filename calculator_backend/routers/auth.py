@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from calculator_backend import database, models, schemas
+from calculator_backend import models, schemas
 from calculator_backend.utils.hashing import hash_password, verify_password
 from calculator_backend.utils.jwt_handler import create_access_token
-from calculator_backend import get_db
+from calculator_backend.database import get_db
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
