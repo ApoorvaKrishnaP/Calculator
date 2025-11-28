@@ -44,3 +44,5 @@ def get_history(Authorization: str = Header(None), db: Session = Depends(get_db)
     records = db.query(models.History).filter(models.History.user_id == user.id).all()
     return records
 print("I'm doing PR from vs code!")
+print("I'm doing PR from vs code!")
+
