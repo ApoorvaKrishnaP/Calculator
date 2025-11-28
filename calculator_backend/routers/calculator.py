@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.orm import Session
-from calculator_backend import database, models, schemas
+from calculator_backend import models, schemas
 from calculator_backend.utils.jwt_handler import verify_token
 from calculator_backend.database import get_db
 router = APIRouter(prefix="/calc", tags=["Calculator"])
@@ -43,3 +43,4 @@ def get_history(Authorization: str = Header(None), db: Session = Depends(get_db)
     user = db.query(models.User).filter(models.User.username == username).first()
     records = db.query(models.History).filter(models.History.user_id == user.id).all()
     return records
+print("I'm doing PR from vs code!")

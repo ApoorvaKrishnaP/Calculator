@@ -15,4 +15,5 @@ def get_db():
         db.close()
 #print("Howdy girl!")
 print("hey")
-
+print("Mayo")
+print("Holamatina")
