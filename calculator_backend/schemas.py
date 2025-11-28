@@ -10,3 +10,4 @@ class Token(BaseModel):
 
 class Expression(BaseModel):
     expr: str
+print("abc")
