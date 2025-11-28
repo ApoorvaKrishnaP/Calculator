@@ -40,3 +40,6 @@ jobs:
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         "https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/comments" \
         > .github/scripts/review_comments.json
+rules:
+  - indent: 2 # Use 2 spaces for indentation
+  - no-tabs: true # Do not use tabs for indentation
