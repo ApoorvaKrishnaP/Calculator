@@ -19,5 +19,12 @@
     "body": "Never do wrong imports",
     "path": "calculator_backend/routers/auth.py",
     "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  },
+  {
+    "pr_number": 15,
+    "user": "ApoorvaKrishnaP",
+    "body": "never add unnecessary comments",
+    "path": "calculator_backend/schemas.py",
+    "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   }
 ]
