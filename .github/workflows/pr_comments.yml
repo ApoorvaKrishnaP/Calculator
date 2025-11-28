@@ -19,13 +19,14 @@ jobs:
       - name: Append Comment to Log File
         # This uses the 'jq' tool to safely append JSON data to a file.
         run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           # Define the data structure for the comment you want to save
           COMMENT_DATA='{
             "pr_number": ${{ github.event.pull_request.number }},
             "user": "${{ github.event.comment.user.login }}",
             "body": "${{ github.event.comment.body }}",
             "path": "${{ github.event.comment.path }}",
-            "date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            "date": "'$TIMESTAMP'"
           }'
           
           # 1. Create the log file if it doesn't exist
