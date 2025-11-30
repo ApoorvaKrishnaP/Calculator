@@ -1,0 +1,40 @@
+name: AI Code Audit
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  audit_code:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          pip install google-genai PyGithub
+
+      - name: Run AI Reviewer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python ai_reviewer/review_pr.py
+
+      - name: Upload Review Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-summary
+          path: summary.json
