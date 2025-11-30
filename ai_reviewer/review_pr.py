@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-import google.generativeai as genai
+import google.genai as genai
 from github import Github
 
 # Configure Gemini
