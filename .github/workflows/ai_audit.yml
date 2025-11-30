@@ -22,7 +22,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install google-genai PyGithub
+          pip install google-generativeai PyGithub
 
       - name: Run AI Reviewer
         env:

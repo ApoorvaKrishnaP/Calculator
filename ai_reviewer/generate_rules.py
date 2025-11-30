@@ -1,7 +1,7 @@
 import os
 import json
-from google import genai
-from google.genai import types
+import google.generativeai as genai
+from google.generativeai import types
 
 def generate_rules(comments_file_path, output_rules_path):
     """
