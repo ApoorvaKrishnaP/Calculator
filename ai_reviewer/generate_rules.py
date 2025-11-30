@@ -2,7 +2,7 @@ import os
 import json
 import google.generativeai as genai
 from google.generativeai import types
-
+print("trial")
 def generate_rules(comments_file_path, output_rules_path):
     """
     Reads PR comments from a JSON file and uses Gemini to generate coding rules.
@@ -12,7 +12,7 @@ def generate_rules(comments_file_path, output_rules_path):
 
 
     # 2. Setup: Use the Client pattern you prefer
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
     if not os.path.exists(comments_file_path):
         print(f"No comments file found at {comments_file_path}")
