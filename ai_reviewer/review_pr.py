@@ -6,7 +6,7 @@ from github import Github
 
 # Configure Gemini
 
-
+#My github api key="888cbcddd789"
 def review_pr(repo_name, pr_number, rules_path):
     # 1. Setup GitHub connection
     g = Github(os.environ.get("GITHUB_TOKEN"))
