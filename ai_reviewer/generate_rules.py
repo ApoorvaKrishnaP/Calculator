@@ -5,6 +5,7 @@ from google.genai import types
 print("trial")
 print("trial2")
 print("trial3")
+print("trial4")
 def generate_rules(comments_file_path, output_rules_path):
     """
     Reads PR comments from a JSON file and uses Gemini to generate coding rules.
