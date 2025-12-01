@@ -49,7 +49,9 @@ def review_pr(repo_name, pr_number, rules_path):
     - "file": filename
     - "line": line number (approximate, based on the diff)
     - "violation": description of the rule violated
-    - "suggestion": how to fix it
+    - "violation": description of the rule violated
+    - "suggestion": text explanation of how to fix it
+    - "fix_code": (optional) the exact code line(s) that should replace the violated line(s). Only provide this if it's a simple replacement.
 
     CODE DIFF:
     {diff_text}
@@ -74,6 +76,36 @@ def review_pr(repo_name, pr_number, rules_path):
     with open("summary.json", "w") as f:
         json.dump(review_comments, f, indent=2)
     print("Saved review summary to summary.json")
+
+    # 6. Post comments to GitHub PR
+    print("Posting review comments to GitHub...")
+    try:
+        commits = list(pr.get_commits())
+        latest_commit = commits[-1]
+    except Exception as e:
+        print(f"Error getting commits: {e}")
+        return review_comments
+
+    for comment in review_comments:
+        try:
+            body = f"**AI Reviewer Found a Violation!**\n\n**Rule:** {comment['violation']}\n**Suggestion:** {comment['suggestion']}"
+            
+            # If the AI provided exact fix code, use GitHub's suggestion feature
+            if "fix_code" in comment and comment["fix_code"]:
+                body += f"\n```suggestion\n{comment['fix_code']}\n```"
+
+            # Create a review comment on the specific line
+            # Note: 'line' must be part of the diff for this to work
+            pr.create_review_comment(
+                body=body,
+                commit=latest_commit,
+                path=comment['file'],
+                line=int(comment['line']),
+                side="RIGHT"
+            )
+            print(f"Posted comment on {comment['file']}:{comment['line']}")
+        except Exception as e:
+            print(f"Failed to post comment on {comment['file']}:{comment['line']}: {e}")
 
     return review_comments
 
