@@ -8,7 +8,7 @@ jobs:
   audit_code:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
     
     steps:
@@ -38,3 +38,10 @@ jobs:
         with:
           name: review-summary
           path: summary.json
+
+      - name: Commit Review Summary
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Auto-logging AI review summary'
+          file_pattern: 'summary.json'
+          branch: ${{ github.head_ref }}
