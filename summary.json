@@ -25,6 +25,6 @@
     "line": 9,
     "violation": "Capitalize Print Statement Sentences",
     "suggestion": "All sentences within print statements should start with a capital letter.",
-    "fix_code": "print(\"Trial4\")"
+    "fix_code": "print(\"Trial3\")"
   }
 ]
