@@ -8,7 +8,7 @@ def generate_rules(comments_file_path, output_rules_path):
     Reads PR comments from a JSON file and uses Gemini to generate coding rules.
     """
     # 1. Security: Get API key from environment variable
-    genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
 
 
     # 2. Setup: Use the Client pattern you prefer

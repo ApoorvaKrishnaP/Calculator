@@ -5,7 +5,7 @@ import google.genai as genai
 from github import Github
 
 # Configure Gemini
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
 
 def review_pr(repo_name, pr_number, rules_path):
     # 1. Setup GitHub connection
@@ -55,8 +55,12 @@ def review_pr(repo_name, pr_number, rules_path):
     {diff_text}
     """
 
-    model = genai.GenerativeModel('gemini-2.0-flash-exp')
-    response = model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
+    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp',
+        contents=prompt,
+        config={"response_mime_type": "application/json"}
+    )
     
     try:
         response_text=response.text
