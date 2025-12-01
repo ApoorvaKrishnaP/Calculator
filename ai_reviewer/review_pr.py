@@ -57,7 +57,7 @@ def review_pr(repo_name, pr_number, rules_path):
 
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
     response = client.models.generate_content(
-        model='gemini-2.0-flash-exp',
+        model='gemini-2.0-flash',
         contents=prompt,
         config={"response_mime_type": "application/json"}
     )
