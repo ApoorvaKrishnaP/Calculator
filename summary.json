@@ -1,0 +1,20 @@
+[
+  {
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 4,
+    "violation": "Capitalize Print Statement Sentences",
+    "suggestion": "Change 'print(\"trial\")' to 'print(\"Trial\")'."
+  },
+  {
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 5,
+    "violation": "Capitalize Print Statement Sentences",
+    "suggestion": "Change 'print(\"trial2\")' to 'print(\"Trial2\")'."
+  },
+  {
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 6,
+    "violation": "Capitalize Print Statement Sentences",
+    "suggestion": "Change 'print(\"trial3\")' to 'print(\"Trial3\")'."
+  }
+]
