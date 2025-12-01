@@ -8,8 +8,8 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
 @router.post("/register")
-#Role of decorators,auth prefix
-#In schemas.Usercreate,fastAPI validates user input
+#role of decorators,auth prefix
+#in schemas.Usercreate,fastAPI validates user input
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     
     existing_user = db.query(models.User).filter(models.User.username == user.username).first()

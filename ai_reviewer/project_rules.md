@@ -1,1 +1,1 @@
-**Secret Keys**: Never display secret keys directly on code
+**Comments in Capitalize Sentences**: All sentences within comments should start with a capital letter.
