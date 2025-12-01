@@ -1,20 +1,30 @@
 [
   {
     "file": "ai_reviewer/generate_rules.py",
-    "line": 4,
-    "violation": "Capitalize Print Statement Sentences",
-    "suggestion": "Change 'print(\"trial\")' to 'print(\"Trial\")'."
-  },
-  {
-    "file": "ai_reviewer/generate_rules.py",
-    "line": 5,
-    "violation": "Capitalize Print Statement Sentences",
-    "suggestion": "Change 'print(\"trial2\")' to 'print(\"Trial2\")'."
-  },
-  {
-    "file": "ai_reviewer/generate_rules.py",
     "line": 6,
     "violation": "Capitalize Print Statement Sentences",
-    "suggestion": "Change 'print(\"trial3\")' to 'print(\"Trial3\")'."
+    "suggestion": "All sentences within print statements should start with a capital letter.",
+    "fix_code": "print(\"Trial\")"
+  },
+  {
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 7,
+    "violation": "Capitalize Print Statement Sentences",
+    "suggestion": "All sentences within print statements should start with a capital letter.",
+    "fix_code": "print(\"Trial2\")"
+  },
+  {
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 8,
+    "violation": "Capitalize Print Statement Sentences",
+    "suggestion": "All sentences within print statements should start with a capital letter.",
+    "fix_code": "print(\"Trial3\")"
+  },
+  {
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 9,
+    "violation": "Capitalize Print Statement Sentences",
+    "suggestion": "All sentences within print statements should start with a capital letter.",
+    "fix_code": "print(\"Trial4\")"
   }
 ]
