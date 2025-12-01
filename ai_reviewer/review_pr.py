@@ -4,7 +4,7 @@ import json
 import google.genai as genai
 from github import Github
 
-# Configure Gemini
+#configure Gemini
 
 def review_pr(repo_name, pr_number, rules_path):
     # 1. Setup GitHub connection
