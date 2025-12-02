@@ -36,10 +36,25 @@ jobs:
           # 2. Append the new JSON comment data to the array in the file
           jq --argjson new_comment "$COMMENT_DATA" '. + [$new_comment]' review_logs.json > temp.json && mv temp.json review_logs.json
 
-      - name: Commit Log File
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai
+
+      - name: Generate Rules from Comments
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python ai_reviewer/generate_rules.py
+
+      - name: Commit Log File and Rules
         # Use a special action to commit the changes back to the repository
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Auto-logging new PR review comment'
-          file_pattern: 'review_logs.json'
+          commit_message: 'Auto-logging new PR review comment and updating rules'
+          file_pattern: 'review_logs.json ai_reviewer/project_rules.md'
           branch: 'main'

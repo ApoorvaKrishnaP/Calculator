@@ -81,4 +81,4 @@ def generate_rules(comments_file_path, output_rules_path):
         print(f"Error generating rules: {e}")
 
 if __name__ == "__main__":
-    generate_rules("review_logs.json", "ai_reviewer\\project_rules.md")
+    generate_rules("review_logs.json", "ai_reviewer/project_rules.md")
