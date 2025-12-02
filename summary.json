@@ -3,28 +3,7 @@
     "file": "ai_reviewer/generate_rules.py",
     "line": 9,
     "violation": "Comments in Capitalize Sentences",
-    "suggestion": "The sentence inside the comment should start with a capital letter.",
-    "fix_code": "#Print(\"Todos\")"
-  },
-  {
-    "file": "ai_reviewer/review_pr.py",
-    "line": 7,
-    "violation": "Comments in Capitalize Sentences",
-    "suggestion": "The sentence inside the comment should start with a capital letter.",
-    "fix_code": "#Configure Gemini"
-  },
-  {
-    "file": "calculator_backend/routers/auth.py",
-    "line": 11,
-    "violation": "Comments in Capitalize Sentences",
-    "suggestion": "The sentence inside the comment should start with a capital letter.",
-    "fix_code": "#Role of decorators,auth prefix"
-  },
-  {
-    "file": "calculator_backend/routers/auth.py",
-    "line": 12,
-    "violation": "Comments in Capitalize Sentences",
-    "suggestion": "The sentence inside the comment should start with a capital letter.",
-    "fix_code": "#In schemas.Usercreate,fastAPI validates user input"
+    "suggestion": "The sentences in the comment should start with a capital letter.",
+    "fix_code": "#My name is apoorva. My github username is apoorva. My gmail is apoorva@apoorva.com"
   }
 ]
