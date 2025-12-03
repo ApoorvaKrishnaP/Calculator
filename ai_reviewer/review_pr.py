@@ -5,7 +5,8 @@ import google.genai as genai
 from github import Github
 
 #configure Gemini
-
+#test comment
+#test comment2
 def review_pr(repo_name, pr_number, rules_path):
     # 1. Setup GitHub connection
     g = Github(os.environ.get("GITHUB_TOKEN"))
