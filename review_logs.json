@@ -68,5 +68,12 @@
     "body": "Ensure that comments end with # ",
     "path": "ai_reviewer/generate_rules.py",
     "date": "2025-12-02T16:46:04Z"
+  },
+  {
+    "pr_number": "27",
+    "user": "ApoorvaKrishnaP",
+    "body": "thsi is goood",
+    "path": ".github/workflows/pr_comments.yml",
+    "date": "2025-12-03T07:02:42Z"
   }
 ]
