@@ -17,16 +17,22 @@ jobs:
         
       - name: Append Comment to Log File
         # This uses the 'jq' tool to safely append JSON data to a file.
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          USER_LOGIN: ${{ github.event.comment.user.login }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_PATH: ${{ github.event.comment.path }}
         run: |
           TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          # Define the data structure for the comment you want to save
-          COMMENT_DATA='{
-            "pr_number": ${{ github.event.pull_request.number }},
-            "user": "${{ github.event.comment.user.login }}",
-            "body": "${{ github.event.comment.body }}",
-            "path": "${{ github.event.comment.path }}",
-            "date": "'$TIMESTAMP'"
-          }'
+          
+          # Use jq to construct the JSON object safely to avoid quoting issues
+          COMMENT_DATA=$(jq -n \
+            --arg pr_number "$PR_NUMBER" \
+            --arg user "$USER_LOGIN" \
+            --arg body "$COMMENT_BODY" \
+            --arg path "$COMMENT_PATH" \
+            --arg date "$TIMESTAMP" \
+            '{pr_number: $pr_number, user: $user, body: $body, path: $path, date: $date}')
           
           # 1. Create the log file if it doesn't exist
           if [ ! -f review_logs.json ]; then

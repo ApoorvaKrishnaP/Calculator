@@ -8,6 +8,8 @@ print("trial3")
 print("Trial3")
 #my name is apoorva.my github username is apoorva.my gmail is apoorva@apoorva.com
 #print("Todos")
+#test comment
+#test comment2#
 def generate_rules(comments_file_path, output_rules_path):
     """
     Reads PR comments from a JSON file and uses Gemini to generate coding rules.
