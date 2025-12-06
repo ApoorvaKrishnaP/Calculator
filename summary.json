@@ -1,30 +1,23 @@
 [
   {
     "file": "ai_reviewer/generate_rules.py",
-    "line": 9,
-    "violation": "Comment Syntax",
-    "suggestion": "All comments must end with the `#` character.",
-    "fix_code": "#test comment2#"
+    "line": 8,
+    "violation": "Minimize Comments",
+    "suggestion": "Remove unnecessary comments.",
+    "fix_code": ""
   },
   {
     "file": "ai_reviewer/generate_rules.py",
-    "line": 37,
+    "line": 10,
     "violation": "Minimize Comments",
     "suggestion": "Remove unnecessary comments.",
-    "fix_code": "    # Read existing rules to avoid duplicates"
+    "fix_code": ""
   },
   {
-    "file": "ai_reviewer/review_pr.py",
-    "line": 7,
+    "file": "ai_reviewer/generate_rules.py",
+    "line": 11,
     "violation": "Comment Syntax",
     "suggestion": "All comments must end with the `#` character.",
     "fix_code": "#test comment2#"
-  },
-  {
-    "file": "ai_reviewer/review_pr.py",
-    "line": 6,
-    "violation": "Minimize Comments",
-    "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#configure Gemini"
   }
 ]
