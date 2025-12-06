@@ -4,14 +4,14 @@
     "line": 8,
     "violation": "Minimize Comments",
     "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#my name is apoorva.my github username is apoorva.my gmail is apoorva@apoorva.com#"
+    "fix_code": ""
   },
   {
     "file": "ai_reviewer/generate_rules.py",
     "line": 10,
     "violation": "Minimize Comments",
     "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#test comment#"
+    "fix_code": ""
   },
   {
     "file": "ai_reviewer/generate_rules.py",
