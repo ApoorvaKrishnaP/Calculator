@@ -49,9 +49,8 @@ def review_pr(repo_name, pr_number, rules_path):
     - "file": filename
     - "line": line number (approximate, based on the diff)
     - "violation": description of the rule violated
-    - "violation": description of the rule violated
     - "suggestion": text explanation of how to fix it
-    - "fix_code": (optional) the exact code line(s) that should replace the violated line(s). Only provide this if it's a simple replacement.
+    - "fix_code": Corrected code as per violation
 
     CODE DIFF:
     {diff_text}
