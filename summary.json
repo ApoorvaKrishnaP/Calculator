@@ -39,7 +39,7 @@
     "line": 6,
     "violation": "Minimize Comments",
     "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#configure Gemini"
+    "fix_code": "#configure Gemini#"
   },
   {
     "file": "ai_reviewer/review_pr.py",
