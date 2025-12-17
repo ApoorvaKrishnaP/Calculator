@@ -18,7 +18,7 @@ def generate_rules(comments_file_path, output_rules_path):
     # 1. Security: Get API key from environment variable
 
 
-
+    print("1234")
     # 2. Setup: Use the Client pattern you prefer
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
