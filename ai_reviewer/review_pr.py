@@ -75,7 +75,7 @@ def review_pr(repo_name, pr_number, rules_path):
     with open("summary.json", "w") as f:
         json.dump(review_comments, f, indent=2)
     print("Saved review summary to summary.json")
-    print("Hey")
+    print("Hey!")
     # 6. Post comments to GitHub PR
     print("Posting review comments to GitHub...")
     try:
