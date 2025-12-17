@@ -1,49 +1,21 @@
 [
   {
-    "file": ".github/workflows/pr_comments.yml",
-    "line": 18,
-    "violation": "Minimize Comments",
-    "suggestion": "This comment is redundant. The purpose of the code can be inferred from the code itself.",
-    "fix_code": "env:"
-  },
-  {
     "file": "ai_reviewer/generate_rules.py",
     "line": 8,
     "violation": "Minimize Comments",
     "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#my name is apoorva.my github username is apoorva.my gmail is apoorva@apoorva.com#"
+    "fix_code": ""
   },
   {
     "file": "ai_reviewer/generate_rules.py",
     "line": 10,
     "violation": "Minimize Comments",
     "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#test comment#"
+    "fix_code": ""
   },
   {
     "file": "ai_reviewer/generate_rules.py",
     "line": 11,
-    "violation": "Comment Syntax",
-    "suggestion": "All comments must end with the `#` character.",
-    "fix_code": "#test comment2#"
-  },
-  {
-    "file": "ai_reviewer/generate_rules.py",
-    "line": 37,
-    "violation": "Minimize Comments",
-    "suggestion": "Remove unnecessary comments.",
-    "fix_code": "    # Read existing rules to avoid duplicates"
-  },
-  {
-    "file": "ai_reviewer/review_pr.py",
-    "line": 6,
-    "violation": "Minimize Comments",
-    "suggestion": "Remove unnecessary comments.",
-    "fix_code": "#configure Gemini#"
-  },
-  {
-    "file": "ai_reviewer/review_pr.py",
-    "line": 7,
     "violation": "Comment Syntax",
     "suggestion": "All comments must end with the `#` character.",
     "fix_code": "#test comment2#"
