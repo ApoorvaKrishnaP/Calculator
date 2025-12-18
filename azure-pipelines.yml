@@ -1,0 +1,32 @@
+# Azure Pipelines CI for PR validation
+
+trigger: none   # do NOT run on push
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+# 1. Checkout repo
+- checkout: self
+
+# 2. Set up Python
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.13'
+  displayName: Set up Python
+
+# 3. Install dependencies
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: Install dependencies
+
+# 4. Run tests
+- script: |
+    pytest
+  displayName: Run Pytest tests
