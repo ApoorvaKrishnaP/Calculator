@@ -94,6 +94,3 @@ async def google_callback(request: Request):
         raise HTTPException(status_code=400, detail="Unable to read Google user email")
     name = user_info.get("name", "Google User")
     return RedirectResponse(url=f"/calculator?username={name}")
-
-    
-print("I like to move it move it!hurrratayaya")   
