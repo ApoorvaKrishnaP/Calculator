@@ -1,0 +1,8 @@
+rules:
+  - id: use-fstring-instead-of-old-format
+    message: Use f-strings instead of percent or str.format formatting.
+    severity: WARNING
+    languages: [python]
+    pattern-either:
+      - pattern: $X % ...
+      - pattern: $X.format(...)

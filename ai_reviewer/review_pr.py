@@ -1,116 +1,89 @@
 import os
-import sys
 import json
-import google.genai as genai
-from github import Github
+from github import Github, GithubException
+import litellm
 
-#configure Gemini
-#test comment
-#test comment2
-def review_pr(repo_name, pr_number, rules_path):
-    # 1. Setup GitHub connection
-    g = Github(os.environ.get("GITHUB_TOKEN"))
-    repo = g.get_repo(repo_name)
-    pr = repo.get_pull(pr_number)
+g = Github(os.getenv("GITHUB_TOKEN"))
+repo = g.get_repo(os.getenv("GITHUB_REPOSITORY"))
+pr = repo.get_pull(int(os.getenv("GITHUB_PR_NUMBER")))  # GitHub Actions sets this? Wait — we will pass it
 
-    # 2. Get the Diff
-    # We use requests or the internal URL to get the raw diff, or iterate through files
-    # For simplicity, let's iterate through files to get context
-    files = pr.get_files()
-    diff_text = ""
-    for file in files:
-        if file.status == "removed":
-            continue
-        diff_text += f"\n--- File: {file.filename} ---\n"
-        diff_text += file.patch if file.patch else "(Binary file or too large)"
+# Better: use event
+event_path = os.getenv("GITHUB_EVENT_PATH")
+with open(event_path) as f:
+    event = json.load(f)
+pr = repo.get_pull(event["pull_request"]["number"])
 
-    # 3. Read Rules
-    if not os.path.exists(rules_path):
-        print("No rules file found. Skipping AI review.")
-        return
+# 1. Get diff + rules
+diff = pr.get_files()
+rules = repo.get_contents("project_rules.md").decoded_content.decode()
 
-    with open(rules_path, 'r') as f:
-        rules = f.read()
+# 2. Build prompt (critical part)
+system_prompt = """You are an expert code reviewer. You have a rulebook.
+Return ONLY valid JSON array of violations.
+For each violation include:
+- file (path)
+- start_line (1-based in the NEW version of file)
+- end_line
+- start_column (only if violation is on single line, else null)
+- end_column (only if single line)
+- rule_id
+- rule_name
+- why (exact reason from rulebook)
+- solution (clear fix explanation)
+- suggested_code (the fixed code snippet)
 
-    # 4. Ask Gemini to Review
-    prompt = f"""
-    You are an AI Code Reviewer. 
-    Your goal is to enforce the following PROJECT RULES strictly.
-    
-    PROJECT RULES:
-    {rules}
+Rules:
+""" + rules
 
-    INSTRUCTIONS:
-    Review the code diff below. 
-    If you find any code that violates the Project Rules, report it.
-    If the code is fine, say "No violations found."
-    
-    Format your response as a JSON list of objects, where each object has:
-    - "file": filename
-    - "line": line number (approximate, based on the diff)
-    - "violation": description of the rule violated
-    - "suggestion": text explanation of how to fix it
-    - "fix_code": Corrected code as per violation
-
-    CODE DIFF:
-    {diff_text}
-    """
-
-    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-    response = client.models.generate_content(
-        model='gemini-2.0-flash',
-        contents=prompt,
-        config={"response_mime_type": "application/json"}
-    )
-    
-    try:
-        response_text=response.text
-        response_text=response_text.lstrip("```json").rstrip("```")
-        review_comments = json.loads(response_text)
-    except Exception as e:
-        print("Failed to parse JSON response from AI:", response.text)
-        return
-
-    # 5. Save results to summary.json
-    with open("summary.json", "w") as f:
-        json.dump(review_comments, f, indent=2)
-    print("Saved review summary to summary.json")
-    print("Hey!")
-    # 6. Post comments to GitHub PR
-    print("Posting review comments to GitHub...")
-    try:
-        commits = list(pr.get_commits())
-        latest_commit = commits[-1]
-    except Exception as e:
-        print(f"Error getting commits: {e}")
-        return review_comments
-
-    for comment in review_comments:
+# 3. Call LLM with LiteLLM (cheap & any model)
+violations = []
+for file in diff:
+    if file.status in ["added", "modified"]:
+        hunk = file.patch or ""
+        user_prompt = f"File: {file.filename}\nDiff:\n{hunk}\n\nAnalyze and return violations as JSON array."
+        
+        response = litellm.completion(
+            model=os.getenv("LLM_MODEL"),
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.0,
+            response_format={"type": "json_object"}
+        )
         try:
-            body = f"**AI Reviewer Found a Violation!**\n\n**Rule:** {comment['violation']}\n**Suggestion:** {comment['suggestion']}"
-            
-            # If the AI provided exact fix code, use GitHub's suggestion feature
-            if "fix_code" in comment and comment["fix_code"]:
-                body += f"\n```suggestion\n{comment['fix_code']}\n```"
+            result = json.loads(response.choices[0].message.content)
+            violations.extend(result.get("violations", []))
+        except:
+            pass  # skip bad response
 
-            # Create a review comment on the specific line
-            # Note: 'line' must be part of the diff for this to work
-            pr.create_review_comment(
-                body=body,
-                commit=latest_commit,
-                path=comment['file'],
-                line=int(comment['line']),
-                side="RIGHT"
-            )
-            print(f"Posted comment on {comment['file']}:{comment['line']}")
-        except Exception as e:
-            print(f"Failed to post comment on {comment['file']}:{comment['line']}: {e}")
+# 4. Create Check Run with ANNOTATIONS (this is what shows in IDE)
+annotations = []
+for v in violations[:50]:  # max 50 per request
+    ann = {
+        "path": v["file"],
+        "start_line": v["start_line"],
+        "end_line": v.get("end_line", v["start_line"]),
+        "annotation_level": "failure",
+        "title": f"Rule {v['rule_id']}: {v['rule_name']}",
+        "message": f"{v['why']}\n\nSolution: {v['solution']}",
+        "raw_details": f"Suggested fix:\n{v.get('suggested_code', '')}"
+    }
+    if v.get("start_column") and v.get("end_column"):
+        ann["start_column"] = v["start_column"]
+        ann["end_column"] = v["end_column"]
+    annotations.append(ann)
 
-    return review_comments
+check_run = repo.create_check_run(
+    name="RuleForge AI Review",
+    head_sha=pr.head.sha,
+    status="completed",
+    conclusion="failure" if annotations else "success",
+    output={
+        "title": "RuleForge AI Code Review",
+        "summary": f"Found {len(annotations)} rule violations.\n\nFull rulebook: project_rules.md",
+        "annotations": annotations
+    }
+)
 
-if __name__ == "__main__":
-    # These would typically come from GitHub Actions context
-    repo = os.environ["GITHUB_REPOSITORY"]
-    pr_num = int(os.environ["PR_NUMBER"])
-    print("Running AI Reviewer...")
-    review_pr(repo, pr_num, "ai_reviewer/project_rules.md")
+print(f"✅ Created check run with {len(annotations)} annotations")

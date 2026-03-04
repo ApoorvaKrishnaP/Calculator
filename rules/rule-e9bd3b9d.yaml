@@ -1,0 +1,10 @@
+rules:
+  - id: python-list-comprehension-instead-of-append
+    message: Use list comprehensions instead of appending in a loop.
+    severity: WARNING
+    languages: [python]
+    pattern-inside: |
+      $LIST = []
+      for $VAR in $ITERABLE:
+        ...
+    pattern: $LIST.append($EXPRESSION)
