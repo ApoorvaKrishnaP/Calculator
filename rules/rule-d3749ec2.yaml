@@ -1,0 +1,6 @@
+rules:
+  - id: no-print-in-production
+    message: Avoid using print() in production code.
+    severity: WARNING
+    languages: [python]
+    pattern: print(...)

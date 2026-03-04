@@ -1,4 +1,5 @@
-1. **Minimize Comments**: Include only comments that are necessary for understanding the code's purpose or complex logic. Avoid redundant or obvious comments.
-2. **Capitalize Print Statement Sentences**: All sentences within print statements should start with a capital letter. This includes the first word of the sentence and proper nouns.
-3. **Avoid Incorrect Imports**: Ensure that all imports are correct and necessary for the functionality of the code.
-4. **Comment Syntax**: All comments must end with the `#` character.
+1. **File Handling**: Always use the `with` statement when opening files to ensure they are properly closed after their suite finishes, even if an exception is raised.
+2. **Logging**: Remove `print()` statements in production code and use proper logging mechanisms instead.
+3. **List Comprehensions**: Use list comprehensions instead of for loops for creating lists, as they are more concise and often more efficient.
+4. **Enumerate for Loops**: Instead of using `range(len())`, use `enumerate()` for loops to get both the index and the value, which improves readability.    
+5. **F-Strings**: Use f-strings for string formatting instead of older methods like `%` formatting or `str.format()`, as they are more readable and efficient.

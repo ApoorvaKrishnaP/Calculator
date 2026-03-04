@@ -2,14 +2,7 @@ import os
 import json
 import google.genai as genai
 from google.genai import types
-print("trial")
-print("trial2")
-print("trial3")
-print("Trial3")
-#my name is apoorva.my github username is apoorva.my gmail is apoorva@apoorva.com
-#print("Todos")
-#test comment
-#test comment2##
+import litellm
 
 def generate_rules(comments_file_path, output_rules_path):
     """
@@ -17,8 +10,6 @@ def generate_rules(comments_file_path, output_rules_path):
     """
     # 1. Security: Get API key from environment variable
 
-
-    print("1234")
     # 2. Setup: Use the Client pattern you prefer
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
@@ -84,13 +75,18 @@ def generate_rules(comments_file_path, output_rules_path):
 
     # 4. Execution: Use the new generate_content style
     try:
-        response = client.models.generate_content(
-            model="gemini-2.0-flash", 
-            contents=prompt
+        response = litellm.completion(
+            model=os.getenv("LLM_MODEL"),
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.0,
+            response_format={"type": "json_object"}
         )
         
         rules = response.text
-        print(rules)
+        
         with open(output_rules_path, 'w') as f:
             
             f.write(rules)
@@ -102,4 +98,4 @@ def generate_rules(comments_file_path, output_rules_path):
 
 if __name__ == "__main__":
     generate_rules("review_logs.json", "ai_reviewer/project_rules.md")
-    generate_rules("review_logs.json", "ai_reviewer/project_rules.md")
+    

@@ -8,3 +8,6 @@ pydantic
 python-multipart
 pytest
 sympy
+ruff
+litellm
+PyGithub

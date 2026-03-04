@@ -1,28 +1,29 @@
-name: AI Code Audit
+name: RuleForge AI Reviewer
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  audit_code:
+  review:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      checks: write        # REQUIRED for annotations
+      contents: read
       pull-requests: write
-    
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.12'
 
-      - name: Install Dependencies
-        run: |
-          pip install google-genai PyGithub
+      - name: Install dependencies
+        run: pip install litellm PyGithub
 
       - name: Run AI Reviewer
         env:
@@ -32,16 +33,4 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           python ai_reviewer/review_pr.py
-
-      - name: Upload Review Summary
-        uses: actions/upload-artifact@v4
-        with:
-          name: review-summary
-          path: summary.json
-
-      - name: Commit Review Summary
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'Auto-logging AI review summary'
-          file_pattern: 'summary.json'
-          branch: ${{ github.head_ref }}
+          

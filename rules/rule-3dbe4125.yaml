@@ -1,0 +1,9 @@
+rules:
+  - id: python-file-open-without-with-statement
+    message: Always use the 'with' statement when opening files to ensure they are properly closed and resources are managed effectively.
+    severity: WARNING
+    languages: [python]
+    pattern: open(...)
+    pattern-not-inside: |
+      with open(...) as $FILE_HANDLE:
+          ...

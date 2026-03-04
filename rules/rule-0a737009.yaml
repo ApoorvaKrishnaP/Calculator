@@ -1,0 +1,6 @@
+rules:
+  - id: use-enumerate
+    message: Use enumerate() instead of range(len()).
+    severity: WARNING
+    languages: [python]
+    pattern: range(len($COLLECTION))
