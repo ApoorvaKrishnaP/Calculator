@@ -9,3 +9,9 @@ for _ in range(terms):
 	first, second = second, first + second
 
 print("Fibonacci series:", *fibonacci_series)
+
+number_one = 5
+number_two = 10
+number_one, number_two = number_two, number_one
+
+print("Swapped numbers:", number_one, number_two)
